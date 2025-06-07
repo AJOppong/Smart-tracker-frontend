@@ -66,7 +66,7 @@ class DashboardScreen extends StatelessWidget{
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 16),
-             GridView.count(
+            GridView.count(
               crossAxisCount: 2,
               shrinkWrap: true,
               crossAxisSpacing: 12,
