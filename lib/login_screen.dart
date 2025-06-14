@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/dashboard_screen.dart';
+import 'main_navigation.dart';
 
 class LoginScreen extends StatelessWidget{
   const LoginScreen({Key? key}) : super(key: key);
@@ -52,9 +53,10 @@ class LoginScreen extends StatelessWidget{
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed:(){
-                Navigator.push(
+               // After login, go to the dashboard with bottom navigation
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const DashboardScreen()),
+                  MaterialPageRoute(builder: (context) => MainNavigation()),
                 );
               },
               style: ElevatedButton.styleFrom(
