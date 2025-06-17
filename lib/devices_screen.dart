@@ -13,6 +13,7 @@ class _DevicesScreenState extends State<DevicesScreen>{
 
   final List<Map<String , dynamic>> allDevices = [
     {
+      'id' : '00001',
       'name' : 'Living Room Lamp',
       'room' : 'Living Room',
       'power' : '45W',
@@ -20,6 +21,7 @@ class _DevicesScreenState extends State<DevicesScreen>{
       'lastUpdated' : '1 hour ago',
     },
     {
+      'id' : '00002',
       'name' : 'Fridge',
       'room' : 'Dining Room',
       'power' : '67W',
@@ -27,6 +29,7 @@ class _DevicesScreenState extends State<DevicesScreen>{
       'lastUpdated' : 'yesterday',
     },
     {
+      'id' : '00003',
       'name' : 'Television',
       'room' : 'Guest Hall',
       'power' : '0W',
@@ -34,6 +37,7 @@ class _DevicesScreenState extends State<DevicesScreen>{
       'lastUpdated' : 'Monday',
     },
     {
+      'id' : '00057',
       'name' : 'Guest Room Fridge',
       'room' : 'Guest Room',
       'power' : '80W',
@@ -41,6 +45,7 @@ class _DevicesScreenState extends State<DevicesScreen>{
       'lastUpdated' : '15 minutes ago',
     },
     {
+      'id' : '00045',
       'name' : 'Bedside socket',
       'room' : 'Maaster Bedroom',
       'power' : '0W',
@@ -82,6 +87,83 @@ class _DevicesScreenState extends State<DevicesScreen>{
     return devices;
   }
   }
+
+  void _showAddDeviceDialog(BuildContext context){
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController roomController = TextEditingController();
+  final TextEditingController idController = TextEditingController();
+
+  showDialog(
+    context: context,
+    builder: (context){
+      return AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        title: const Text('Add New Device'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Add a new smart plug to your energy monitoring system'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: idController,
+              decoration: const InputDecoration(
+                labelText: 'Device ID',
+                hintText: 'e.g., device_001',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                labelText: 'Device Name',
+                hintText: 'eg: Living Room Lamp',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            TextField(
+              controller: roomController,
+              decoration: const InputDecoration(
+                labelText: 'Room',
+                hintText: 'eg: Living Room',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+
+        actions: [
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: (){
+              Navigator.pop(context);
+            }
+          ),
+          ElevatedButton(
+            child: const Text('Add Device'),
+            onPressed: (){
+              final id = idController.text.trim();
+              final name = nameController.text.trim();
+              final room = roomController.text.trim();
+              if(name.isNotEmpty && room.isNotEmpty){
+                setState((){
+                  allDevices.add({
+                    'id': id,
+                    'name' :name,
+                    'room':room,
+                    'power':'0W',
+                    'online': 'false',
+                    'lastUpdated' : 'Just now',
+                  });
+                });
+                Navigator.pop(context);
+              }
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context){
@@ -236,6 +318,15 @@ class _DevicesScreenState extends State<DevicesScreen>{
           ),
 
         ],
+      ),
+
+      floatingActionButton: Tooltip(
+        message: 'Add Device',
+        child: FloatingActionButton(
+          onPressed: ()=> _showAddDeviceDialog(context),
+          backgroundColor: Colors.blue,
+          child: const Icon(Icons.add, size: 30),
+        ),
       ),
     );
   }
